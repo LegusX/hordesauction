@@ -1,0 +1,22 @@
+{
+  "name": "hordesauction",
+  "version": "1.0.0",
+  "description": "A third party auction house for Hordes.io that allows people to put their items up for bidding",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LegusX/hordesauction.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LegusX/hordesauction/issues"
+  },
+  "homepage": "https://github.com/LegusX/hordesauction#readme",
+  "dependencies": {
+    "mongodb": "^3.5.7"
+  }
+}
