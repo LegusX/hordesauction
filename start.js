@@ -27,7 +27,7 @@ app.use('/client', express.static(__dirname + '/client'));
 https.createServer({
     key: fs.readFileSync('/etc/letsencrypt/live/hordes.auction/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/hordes.auction/fullchain.pem')
-}, app).listen(443);
+}, app).listen(4431);
 
 console.log("Server started.");
 //all how about now
