@@ -20,9 +20,9 @@ var https = require("https")
 var fs = require("fs")
 
 app.get('/', function(reg, res){
-    res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/client/index.html');
 });
-app.use('/client', express.static(__dirname + '/public'));
+app.use('/client', express.static(__dirname + '/client'));
 
 https.createServer({
     key: fs.readFileSync('/etc/letsencrypt/live/hordes.auction/privkey.pem'),
@@ -30,3 +30,4 @@ https.createServer({
 }, app).listen(443);
 
 console.log("Server started.");
+//all how about now
