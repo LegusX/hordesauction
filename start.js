@@ -11,6 +11,6 @@ https.createServer({
   key: fs.readFileSync('/etc/letsencrypt/live/hordes.auction/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/hordes.auction/fullchain.pem')
 }, app)
-.listen(3000, function () {
-  console.log('Example app listening on port 3000! Go to https://localhost:3000/')
+.listen(443, function () {
+  console.log('Example app listening on port 443! Go to https://localhost:443/')
 })
