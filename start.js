@@ -17,18 +17,21 @@
 var express = require('express');
 var app = express();
 var https = require("https")
+var http = express.createServer()
 var fs = require("fs")
 
 app.get('/', function (reg, res) {
     res.sendFile(__dirname + '/client/index.html');
 });
-app.use(function (request, response) {
-    if (!request.secure) {
-        response.redirect("https://" + request.headers.host + request.url);
-    }
-});
 app.use('/client', express.static(__dirname + '/client'));
 
+http.get('*', function(req, res) {  
+    res.redirect('https://' + req.headers.host + req.url);
+
+    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+    // res.redirect('https://example.com' + req.url);
+})
+http.listen(80)
 
 https.createServer({
     key: fs.readFileSync('/etc/letsencrypt/live/hordes.auction/privkey.pem'),
