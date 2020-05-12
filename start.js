@@ -17,6 +17,7 @@
 var express = require('express');
 var app = express();
 var https = require("https")
+var fs = require("fs")
 
 app.get('/', function(reg, res){
     res.sendFile(__dirname + '/public/index.html');
