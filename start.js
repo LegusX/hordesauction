@@ -19,15 +19,21 @@ var app = express();
 var https = require("https")
 var fs = require("fs")
 
-app.get('/', function(reg, res){
+app.get('/', function (reg, res) {
     res.sendFile(__dirname + '/client/index.html');
 });
+app.use(function (request, response) {
+    if (!request.secure) {
+        response.redirect("https://" + request.headers.host + request.url);
+    }
+});
 app.use('/client', express.static(__dirname + '/client'));
+
 
 https.createServer({
     key: fs.readFileSync('/etc/letsencrypt/live/hordes.auction/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/hordes.auction/fullchain.pem')
-}, app).listen(4431);
+}, app).listen(443);
 
 console.log("Server started.");
 //all how about now
