@@ -19,10 +19,10 @@ var app = express();
 var https = require("https")
 var fs = require("fs")
 
-app.get('/', function (reg, res) {
-    res.sendFile(__dirname + '/client/index.html');
-});
-app.use('/client', express.static(__dirname + '/client'));
+// app.get('/', function (reg, res) {
+//     res.sendFile(__dirname + '/client/index.html');
+// });
+app.use('/', express.static(__dirname + '/client'));
 
 //force redirect to https
 var http = require('http');
