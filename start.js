@@ -6,8 +6,8 @@ var api = require ("./api.js")
 
 app.use('/', express.static(__dirname + '/client'));
 //send requests to the api module to be handled
-app.post('/api', api.post(req,res))
-app.get("/api", api.get(req,res))
+app.post('/api', (req,res) => api.post)
+app.get("/api", (req,res) => api.get)
 
 //force redirect to https
 var http = require('http');
