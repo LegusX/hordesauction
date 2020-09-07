@@ -6,9 +6,10 @@ var fs = require("fs")
 var api = require ("./api.js")
 
 app.use('/', express.static(__dirname + '/client'));
+
 //send requests to the api module to be handled
-app.post('/api', (req,res) => api.post)
-app.get("/api", (req,res) => api.get)
+app.post('/api', (req, res) => api.post(req,res))
+app.get("/api", (req, res) => api.get(req,res))
 
 // production env
 // checks to see if the certificate exists, if not move to dev env
