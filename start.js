@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var https = require("https")
 var fs = require("fs")
-var api = require ("api.js")
+var api = require ("./api.js")
 
 app.use('/', express.static(__dirname + '/client'));
 //send requests to the api module to be handled
