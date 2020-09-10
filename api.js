@@ -4,8 +4,9 @@ var db;
 
 //google oauth crap
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(CLIENT_ID);
 const CLIENT_ID = "409948744767-7cota7fak01vimkdrae2jvrj5jq43quj.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
+
 
 async function verify(token) {
     const ticket = await client.verifyIdToken({
