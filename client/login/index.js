@@ -1,5 +1,3 @@
-const { json } = require("express");
-
 function onSignIn(user) {
     var id_token = user.getAuthResponse().id_token;
     fetch("/api",{

@@ -5,6 +5,8 @@ var http = require('http');
 var fs = require("fs")
 var api = require ("./api.js")
 
+var devmode = false;
+
 app.use('/', express.static(__dirname + '/client'));
 
 //send requests to the api module to be handled
@@ -31,5 +33,6 @@ if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) {
 else {
     http.createServer(app).listen(80)
     console.log("HTTP server started in dev mode")
+    devmode = true
 }
 
