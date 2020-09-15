@@ -13,6 +13,6 @@ function onSignIn(user) {
     }).then(function (response) {
         return response.text();
     }).then(function (data) {
-        console.log(data); // this will be a string
+        window.location.href = data;
     });
 }
