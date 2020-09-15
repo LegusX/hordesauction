@@ -25,7 +25,7 @@ mongo.connect(url, function (err, dbase) {
 
 })
 
-//code for use outside module
+//exporting stuff because yeah
 exports.post = function (req, res) {
     // console.log(req)
     data = req.body
@@ -36,13 +36,13 @@ exports.post = function (req, res) {
             let id = verify(data.id).catch(console.error);
             if (db.collection("users").count({id:id}) !== 1) {
                 //sign up user
-                res.writeHead(308, { "Location": "https://hordes.auction/signup"});
+                res.writeHead(301, { "Location": "https://hordes.auction/signup"});
                 res.end();
                 console.log("doesn't exist")
             }
             else {
                 //login user
-                res.writeHead(308, { "Location": "https://hordes.auction/signup"});
+                res.writeHead(301, { "Location": "https://hordes.auction/signup"});
                 res.end();
                 console.log("exists")
             }
