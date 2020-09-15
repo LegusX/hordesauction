@@ -42,7 +42,7 @@ exports.post = function (req, res) {
             console.log(id)
             if (db.collection("users").countDocuments({id: id}) !== 1) {
                 //sign up user
-                res.send("https://hordes.auction/signup?="+id)
+                // res.send("https://hordes.auction/signup?="+id)
             } else {
                 //login user
                 res.send("https://hordes.auction/")
