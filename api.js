@@ -39,9 +39,9 @@ exports.post = function (req, res) {
     data = req.body
 
     //make sure the data isn't going to murder the server somehow
-    Object.getOwnPropertyNames(data).forEach((e)=>{
-        data[e] = sani.value(data[e], "string")
-    })
+    // Object.getOwnPropertyNames(data).forEach((e)=>{
+    //     data[e] = sani.value(data[e], "string")
+    // })
 
     switch (data.type) {
         case "googlelogin": {
