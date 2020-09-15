@@ -60,24 +60,7 @@ exports.post = function (req, res) {
             break;
         }
         case "signup": {
-            db.collection("users").find({gid: data.id}).count().then((err,num)=>{
-                console.log(num)
-                if(num > 0) {
-                    res.send(JSON.stringify({
-                        status: "error",
-                        info: "You already have a account associated with your Google account!"
-                    }))
-                }
-            })
-            db.collection("users").find({username:data.username}).count().then((err,num)=>{
-                console.log(num)
-                if(num > 0) {
-                    res.send(JSON.stringify({
-                        status: "error",
-                        info: "That username has already been taken"
-                    }))
-                }
-            })
+            console.log(db.collection("users").find({gid: "123455667"}))
             if(db.collection("users").find({gid: data.id})) {
                 res.send(JSON.stringify({
                     status: "error",
