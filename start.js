@@ -4,10 +4,12 @@ var https = require("https")
 var http = require('http');
 var fs = require("fs")
 var api = require ("./api.js")
+var bodyParser = require("body-parser")
 
 var devmode = false;
 
 app.use('/', express.static(__dirname + '/client'));
+app.use(app.router);
 
 //send requests to the api module to be handled
 app.post('/api', (req, res) => api.post(req,res))
