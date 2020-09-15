@@ -8,12 +8,14 @@ var bodyParser = require("body-parser")
 
 var devmode = false;
 
+var jsonParser = bodyParser.json()
+
 app.use('/', express.static(__dirname + '/client'));
-app.use(app.router);
+
 
 //send requests to the api module to be handled
-app.post('/api', (req, res) => api.post(req,res))
-app.get("/api", (req, res) => api.get(req,res))
+app.post('/api', jsonParser, (req, res) => api.post(req,res))
+app.get("/api", jsonParser, (req, res) => api.get(req,res))
 
 // production env
 // checks to see if the certificate exists, if not move to dev env
