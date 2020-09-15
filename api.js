@@ -60,18 +60,20 @@ exports.post = function (req, res) {
             break;
         }
         case "signup": {
-            console.log(db.collection("users").find({gid: "123455667"}))
-            if(db.collection("users").find({gid: data.id})) {
+            console.log(db.collection("users").find({gid: "123455667"}).next())
+            if(db.collection("users").find({gid: data.id}).next()) {
                 res.send(JSON.stringify({
                     status: "error",
                     info: "You already have a account associated with your Google account!"
                 }))
             }
-            if (db.collection("users").find({username:data.username})) {
-                res.send(JSON.stringify({
-                    status: "error",
-                    info: "That username has already been taken"
-                }))
+            if (db.collection("users").find({username:data.username}).next()) {
+                if(!res.headersSent) {
+                    res.send(JSON.stringify({
+                        status: "error",
+                        info: "That username has already been taken"
+                    }))
+                }
             }
             //if nothing has been sent as a response, complete signup
             if (!res.headersSent) {
