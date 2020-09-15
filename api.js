@@ -51,8 +51,8 @@ exports.post = function (req, res) {
                     //login user
                     res.send("https://hordes.auction/")
                 }
-                break;
             }).catch(console.error);
+            break;
         }
     }
 }
