@@ -5,6 +5,10 @@ function onSignIn(user) {
         body: JSON.stringify({
             type:"login",
             id:id_token
-        })
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        }
     }).then((response)=>console.log(response))
 }
