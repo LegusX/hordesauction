@@ -36,14 +36,12 @@ exports.post = function (req, res) {
             let id = verify(data.id).catch(console.error);
             if (db.collection("users").count({id:id}) !== 1) {
                 //sign up user
-                res.writeHead(301, { "Location": "https://hordes.auction/signup"});
-                res.end();
+                res.send("https://hordes.auction/signup")
                 console.log("doesn't exist")
             }
             else {
                 //login user
-                res.writeHead(301, { "Location": "https://hordes.auction/signup"});
-                res.end();
+                res.send("https://hordes.auction/signup")
                 console.log("exists")
             }
             break;

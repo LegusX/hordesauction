@@ -10,5 +10,7 @@ function onSignIn(user) {
             'Content-Type': 'application/json'
             // 'Content-Type': 'application/x-www-form-urlencoded',
         }
-    }).then((response)=>console.log(response))
+    }).then((response)=>{
+        window.location.href=response;
+    })
 }
