@@ -29,6 +29,7 @@ mongo.connect(url, function (err, dbase) {
 exports.post = function (req, res) {
     // console.log(req)
     data = req.body
+    console.log
     switch (data.type) {
         case "login": {
             //check if user has an account, if so send them to sign up page, if not send them back to home
