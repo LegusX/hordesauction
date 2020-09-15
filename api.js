@@ -78,6 +78,18 @@ exports.post = function (req, res) {
                     }))
                 }
             })
+            if(db.collection("users").find({gid: data.id})) {
+                res.send(JSON.stringify({
+                    status: "error",
+                    info: "You already have a account associated with your Google account!"
+                }))
+            }
+            if (db.collection("users").find({username:data.username})) {
+                res.send(JSON.stringify({
+                    status: "error",
+                    info: "That username has already been taken"
+                }))
+            }
             //if nothing has been sent as a response, complete signup
             if (!res.headersSent) {
                 let uid = uuidv4()
