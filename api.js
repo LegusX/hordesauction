@@ -1,5 +1,5 @@
 var mongo = require("mongodb").MongoClient;
-import { v4 as uuidv4 } from 'uuid';
+const { v4: uuidv4 } = require('uuid');
 var sani = require("sanitize")()
 const fs = require("fs")
 
