@@ -3,7 +3,7 @@ function onSignIn(user) {
     fetch("/api", {
         method: "POST",
         body: JSON.stringify({
-            type: "login",
+            type: "googlelogin",
             id: id_token
         }),
         headers: {

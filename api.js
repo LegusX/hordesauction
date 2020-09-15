@@ -1,5 +1,6 @@
 var mongo = require("mongodb").MongoClient;
-var url;
+import { v4 as uuidv4 } from 'uuid';
+var sani = require("sanitize")()
 const fs = require("fs")
 
 //google oauth crap
@@ -10,6 +11,7 @@ const CLIENT_ID = "409948744767-7cota7fak01vimkdrae2jvrj5jq43quj.apps.googleuser
 const client = new OAuth2Client(CLIENT_ID);
 
 //more dev mode check stuff
+var url;
 if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) url = "mongodb://localhost:27017/";
 else url = "mongodb+srv://legusx:t3tckgmagrMOfdeo@auctiondev.bbrbb.mongodb.net/data?retryWrites=true&w=majority"
 
@@ -34,19 +36,22 @@ mongo.connect(url, {
 
 //exporting stuff because yeah
 exports.post = function (req, res) {
-    // console.log(req)
     data = req.body
-    console.log(data)
+
+    //make sure the data isn't going to murder the server somehow
+    Object.getOwnPropertyNames(data).forEach((e)=>{
+        data[e] = sani.value(data[e], "string")
+    })
+
     switch (data.type) {
-        case "login": {
+        case "googlelogin": {
             //check if user has an account, if so send them to home, if not send them to sign up
-            verify(data.id).then((id) => {
-                console.log(id)
+            verify(data.id).then((gid) => {
                 if (db.collection("users").countDocuments({
-                        id: id
+                        gid: gid
                     }) !== 1) {
                     //sign up user
-                    res.send("https://hordes.auction/signup?="+id)
+                    res.send("https://hordes.auction/signup?="+gid)
                 } else {
                     //login user
                     res.send("https://hordes.auction/")
@@ -54,8 +59,49 @@ exports.post = function (req, res) {
             }).catch(console.error);
             break;
         }
+        case "signup": {
+            if(db.collection("users").countDocuments({gid: data.id}) !== 1) res.send(JSON.stringify({
+                status: "error",
+                info: "You already have a username associated with your Google account!"
+            }))
+            else if(db.collection("users").countDocuments({username:data.username}) !== 1) res.send(JSON.stringify({
+                status: "error",
+                info: "That username has already been taken"
+            }))
+            else {
+                let uid = uuidv4()
+                let sid = uuidv4()+"."+uuidv4()
+                let expiration = Date.now() + 24 * 3600000 * 14
+
+                //add user to db
+                db.collection("users").insertOne({
+                    gid: data.id,
+                    username: data.username,
+                    uid: uid,
+                    sid: sid,
+                    expires: expiration
+                })
+
+                //set sid cookie so they can sign in when loading the page
+                //expires after 2 weeks
+                res.cookie("sid", sid, {
+                    expires: new Date(expiration)
+                })
+                //name cookie to go in top right hand corner of screen
+                res.cookie("name",data.username, {
+                    expires: new Date(expiration)
+                })
+                res.send(JSON.stringify({
+                    status:"ok"
+                }))
+            }
+            break;
+        }
+        case "cookielogin": {
+            break;
+        }
     }
 }
 exports.get = function (req, res) {
-    res.send("hiya")
+    res.send("this does absolutely nothing yet, go away")
 }
