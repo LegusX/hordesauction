@@ -11,6 +11,8 @@ function onSignIn(user) {
             // 'Content-Type': 'application/x-www-form-urlencoded',
         }
     }).then((response)=>{
-        window.location.href=response.text()
+        response.text().then((final)=>{
+            window.location.href = final
+        })
     })
 }
