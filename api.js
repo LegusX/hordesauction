@@ -39,16 +39,12 @@ exports.post = function (req, res) {
         case "login": {
             //check if user has an account, if so send them to sign up page, if not send them back to home
             let id = verify(data.id).catch(console.error);
-            if (db.collection("users").count({
-                    id: id
-                }) !== 1) {
+            if (db.collection("users").countDocuments({id: id}) !== 1) {
                 //sign up user
-                res.send("https://hordes.auction/signup")
-                console.log("doesn't exist")
+                res.send("https://hordes.auction/signup?="+id)
             } else {
                 //login user
-                res.send("https://hordes.auction/signup")
-                console.log("exists")
+                res.send("https://hordes.auction/")
             }
             break;
         }
