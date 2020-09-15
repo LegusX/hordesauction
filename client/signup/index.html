@@ -26,13 +26,13 @@
 
     <title>Hordes.Auction</title>
 
-    <src></src>
+    <link rel="stylesheet" href="/everything.css">
 </head>
 
 <body>
     <!-- header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Hordes.Auction</a>
+        <a class="navbar-brand" href="/">Hordes.Auction</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -41,7 +41,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item ">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/buy">Buy</a>
@@ -51,7 +51,8 @@
                 </li>
             </ul>
         </div>
-        <form><button formaction="/login" class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/login'">Sign in</button></form>
+        <form><button formaction="/login" class="btn btn-outline-success my-2 my-sm-0"
+                onclick="location.href='/login'">Sign in</button></form>
     </nav>
 
     <!-- Optional JavaScript -->
@@ -66,8 +67,12 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
     </script>
 </body>
-To finish signing up, please choose a display name: 
-<input id="displayname" type="text">
-NOTE: This name will be seen by other users of the website
-Also, I highly recommend you make this similar to your Hordes.io name to help people better recognize you. Entirely up to you though.
+<div class="row align-items-center justify-content-center centerbox" width=50vw height=40vh>
+    To finish signing up, please choose a display name:
+    <input id="displayname" type="text">
+    NOTE: This name will be seen by other users of the website
+    Also, I highly recommend you make this similar to your Hordes.io name to help people better recognize you. Entirely
+    up to you though.
+</div>
+
 </html>

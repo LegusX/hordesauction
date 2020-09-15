@@ -1,12 +1,17 @@
 var mongo = require("mongodb").MongoClient;
-var url = "mongodb://localhost:27017/";
-var db;
+var url;
+const fs = require("fs")
 
 //google oauth crap
-const {OAuth2Client} = require('google-auth-library');
+const {
+    OAuth2Client
+} = require('google-auth-library');
 const CLIENT_ID = "409948744767-7cota7fak01vimkdrae2jvrj5jq43quj.apps.googleusercontent.com"
 const client = new OAuth2Client(CLIENT_ID);
 
+//more dev mode check stuff
+if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) url = "mongodb://localhost:27017/";
+else url = "mongodb+srv://legusx:t3tckgmagrMOfdeo@auctiondev.bbrbb.mongodb.net/data?retryWrites=true&w=majority"
 
 async function verify(token) {
     const ticket = await client.verifyIdToken({
@@ -19,7 +24,7 @@ async function verify(token) {
 }
 
 //connect to db
-mongo.connect(url, function (err, dbase) {
+mongo.connect(url, { useNewUrlParser: true }, function (err, dbase) {
     if (err) throw err;
     db = dbase.db("data")
 
@@ -34,12 +39,13 @@ exports.post = function (req, res) {
         case "login": {
             //check if user has an account, if so send them to sign up page, if not send them back to home
             let id = verify(data.id).catch(console.error);
-            if (db.collection("users").count({id:id}) !== 1) {
+            if (db.collection("users").count({
+                    id: id
+                }) !== 1) {
                 //sign up user
                 res.send("https://hordes.auction/signup")
                 console.log("doesn't exist")
-            }
-            else {
+            } else {
                 //login user
                 res.send("https://hordes.auction/signup")
                 console.log("exists")
