@@ -60,7 +60,7 @@ exports.post = function (req, res) {
             break;
         }
         case "signup": {
-            db.collection("users").find({gid: data.id}).count().then((num)=>{
+            db.collection("users").find({gid: data.id}).count().then((err,num)=>{
                 if(num > 0) {
                     res.send(JSON.stringify({
                         status: "error",
@@ -68,7 +68,7 @@ exports.post = function (req, res) {
                     }))
                 }
             })
-            db.collection("users").find({username:data.username}).count().then((num)=>{
+            db.collection("users").find({username:data.username}).count().then((err,num)=>{
                 if(num > 0) {
                     res.send(JSON.stringify({
                         status: "error",
