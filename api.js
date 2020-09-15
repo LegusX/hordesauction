@@ -61,6 +61,7 @@ exports.post = function (req, res) {
         }
         case "signup": {
             db.collection("users").find({gid: data.id}).count().then((err,num)=>{
+                console.log(num)
                 if(num > 0) {
                     res.send(JSON.stringify({
                         status: "error",
@@ -69,6 +70,7 @@ exports.post = function (req, res) {
                 }
             })
             db.collection("users").find({username:data.username}).count().then((err,num)=>{
+                console.log(num)
                 if(num > 0) {
                     res.send(JSON.stringify({
                         status: "error",
@@ -79,7 +81,7 @@ exports.post = function (req, res) {
             //if nothing has been sent as a response, complete signup
             if (!res.headersSent) {
                 let uid = uuidv4()
-                let sid = uuidv4()+"."+uuidv4()
+                let sid = uuidv4()+"-"+uuidv4()
                 let expiration = Date.now() + 24 * 3600000 * 14
 
                 //add user to db
