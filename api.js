@@ -24,7 +24,9 @@ async function verify(token) {
 }
 
 //connect to db
-mongo.connect(url, { useNewUrlParser: true }, function (err, dbase) {
+mongo.connect(url, {
+    useNewUrlParser: true
+}, function (err, dbase) {
     if (err) throw err;
     db = dbase.db("data")
 
@@ -38,17 +40,19 @@ exports.post = function (req, res) {
     switch (data.type) {
         case "login": {
             //check if user has an account, if so send them to home, if not send them to sign up
-            let id = verify(data.id).catch(console.error);
-            console.log(id)
-            console.log(verify(data.id).catch(console.error);)
-            if (db.collection("users").countDocuments({id: id}) !== 1) {
-                //sign up user
-                // res.send("https://hordes.auction/signup?="+id)
-            } else {
-                //login user
-                res.send("https://hordes.auction/")
-            }
-            break;
+            verify(data.id).then((id) => {
+                console.log(id)
+                if (db.collection("users").countDocuments({
+                        id: id
+                    }) !== 1) {
+                    //sign up user
+                    res.send("https://hordes.auction/signup?="+id)
+                } else {
+                    //login user
+                    res.send("https://hordes.auction/")
+                }
+                break;
+            }).catch(console.error);
         }
     }
 }
