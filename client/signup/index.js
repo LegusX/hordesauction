@@ -20,7 +20,7 @@ window.onload = function(){
                     window.location.href = "/"
                 }
                 case "error": {
-                    alert(data.error)
+                    alert(data.info)
                 }
             }
         });
