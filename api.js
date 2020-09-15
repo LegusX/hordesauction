@@ -60,11 +60,11 @@ exports.post = function (req, res) {
             break;
         }
         case "signup": {
-            if(db.collection("users").countDocuments({gid: data.id}) !== 1) res.send(JSON.stringify({
+            if(db.collection("users").find({gid: data.id}).toArray().length > 0) res.send(JSON.stringify({
                 status: "error",
                 info: "You already have a username associated with your Google account!"
             }))
-            else if(db.collection("users").countDocuments({username:data.username}) !== 1) res.send(JSON.stringify({
+            else if(db.collection("users").find({username:data.username}).toArray().length > 0) res.send(JSON.stringify({
                 status: "error",
                 info: "That username has already been taken"
             }))
