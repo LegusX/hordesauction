@@ -36,12 +36,12 @@ exports.post = function (req, res) {
             let id = verify(data.id).catch(console.error);
             if (db.collection("users").count({id:id}) !== 1) {
                 //sign up user
-                res.redirect("www.google.com")
+                res.redirect("/signup")
                 console.log("doesn't exist")
             }
             else {
                 //login user
-                res.redirect("www.yahoo.com")
+                res.redirect("/")
                 console.log("exists")
             }
             break;
