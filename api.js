@@ -35,11 +35,11 @@ exports.post = function (req, res) {
             let id = verify(data.id).catch(console.error);
             if (db.collection("users").count({id:id}) !== 1) {
                 //sign up user
-                res.redirect("/signup")
+                res.redirect("www.google.com")
             }
             else {
                 //login user
-                res.redirect("/")
+                res.redirect("www.yahoo.com")
             }
             break;
         }
