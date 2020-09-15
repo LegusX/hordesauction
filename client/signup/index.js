@@ -12,12 +12,12 @@ window.onload = function(){
                 'Content-Type': 'application/json'
             }
         }).then(function (response) {
-            return response.JSON();
+            return response.json();
         }).then(function (data) {
             switch (data.status) {
                 case "ok": {
                     //server thinks everything is fine, send user back to home page
-                    window.location.href = "https://hordes.auction"
+                    window.location.href = "https://hordes.auction#"
                 }
                 case "error": {
                     alert(data.info)
