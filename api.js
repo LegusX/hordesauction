@@ -27,7 +27,7 @@ mongo.connect(url, function (err, dbase) {
 
 //code for use outside module
 exports.post = function (req, res) {
-    console.log(req.body)
+    console.log(req)
     data = JSON.parse(req.body)
     switch (data.type) {
         case "login": {
