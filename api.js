@@ -60,15 +60,24 @@ exports.post = function (req, res) {
             break;
         }
         case "signup": {
-            if(db.collection("users").find({gid: data.id}).toArray().length > 0) res.send(JSON.stringify({
-                status: "error",
-                info: "You already have a username associated with your Google account!"
-            }))
-            else if(db.collection("users").find({username:data.username}).toArray().length > 0) res.send(JSON.stringify({
-                status: "error",
-                info: "That username has already been taken"
-            }))
-            else {
+            db.collection("users").find({gid: data.id}).then((doc)=>{
+                if(doc !== null) {
+                    res.send(JSON.stringify({
+                        status: "error",
+                        info: "You already have a account associated with your Google account!"
+                    }))
+                }
+            })
+            db.collection("users").find({username:data.username}).then((doc)=>{
+                if(doc !== null) {
+                    res.send(JSON.stringify({
+                        status: "error",
+                        info: "That username has already been taken"
+                    }))
+                }
+            })
+            //if nothing has been sent as a response, complete signup
+            if (!res.headersSent) {
                 let uid = uuidv4()
                 let sid = uuidv4()+"."+uuidv4()
                 let expiration = Date.now() + 24 * 3600000 * 14
