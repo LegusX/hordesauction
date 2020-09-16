@@ -18,9 +18,11 @@ window.onload = function(){
                 case "ok": {
                     //server thinks everything is fine, send user back to home page
                     window.location.href = "https://hordes.auction#"
+                    break;
                 }
                 case "error": {
                     alert(data.info)
+                    break;
                 }
             }
         });
