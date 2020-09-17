@@ -58,23 +58,6 @@ exports.post = function (req, res) {
             break;
         }
         case "signup": {
-            // console.log(db.collection("users").find({gid: "123455667"}).next())
-            // if(db.collection("users").find({gid: data.id}).next()) {
-            //     res.send(JSON.stringify({
-            //         status: "error",
-            //         info: "You already have a account associated with your Google account!"
-            //     }))
-            //     return break;
-            // }
-            // if (db.collection("users").find({username:data.username}).next()) {
-            //     if(!res.headersSent) {
-            //         res.send(JSON.stringify({
-            //             status: "error",
-            //             info: "That username has already been taken"
-            //         }))
-            //     }
-            //     return break;
-            // }
             db.collection("users").find({gid:data.id}).count((err,num)=>{
                 if (num > 0) {
                     res.send(JSON.stringify({
