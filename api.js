@@ -47,15 +47,13 @@ exports.post = function (req, res) {
         case "googlelogin": {
             //check if user has an account, if so send them to home, if not send them to sign up
             verify(data.id).then((gid) => {
-                if (db.collection("users").countDocuments({
-                        gid: gid
-                    }) !== 1) {
-                    //sign up user
-                    res.send("https://hordes.auction/signup?="+gid)
-                } else {
-                    //login user
-                    res.send("https://hordes.auction/")
-                }
+                db.collection("users").find({gid:gid}).count((err,num)=>{
+                    if (num > 0) {
+                        //probably need to do some more stuff here for logging in an existing user
+                        res.send("https://hordes.auction")
+                    }
+                    else res.send("https://hordes.auction/signup?="+gid) //send user to signup
+                })
             }).catch(console.error);
             break;
         }
