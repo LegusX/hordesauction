@@ -84,45 +84,45 @@ exports.post = function (req, res) {
                         info: "You already have a account associated with your Google account!"
                     })) 
                 }
-            })
+                else {
+                    db.collection("users").find({username:data.username}).count((err,num)=>{
+                        if (num > 0 && !res.headersSent) {
+                            res.send(JSON.stringify({
+                                status: "error",
+                                info: "That username has already been taken."
+                            })) 
+                        }
+                        //if nothing has been sent as a response, complete signup
+                        else if (!res.headersSent) {
+                            let uid = uuidv4()
+                            let sid = uuidv4()+"-"+uuidv4()
+                            let expiration = Date.now() + 24 * 3600000 * 14
             
-            db.collection("users").find({username:data.username}).count((err,num)=>{
-                if (num > 0 && !res.headersSent) {
-                    res.send(JSON.stringify({
-                        status: "error",
-                        info: "That username has already been taken."
-                    })) 
+                            //add user to db
+                            db.collection("users").insertOne({
+                                gid: data.id,
+                                username: data.username,
+                                uid: uid,
+                                sid: sid,
+                                expires: expiration
+                            })
+            
+                            //set sid cookie so they can sign in when loading the page
+                            //expires after 2 weeks
+                            res.cookie("sid", sid, {
+                                expires: new Date(expiration)
+                            })
+                            //name cookie to go in top right hand corner of screen
+                            res.cookie("name",data.username, {
+                                expires: new Date(expiration)
+                            })
+                            res.send(JSON.stringify({
+                                status:"ok"
+                            }))
+                        }
+                    })
                 }
             })
-
-            //if nothing has been sent as a response, complete signup
-            if (!res.headersSent) {
-                let uid = uuidv4()
-                let sid = uuidv4()+"-"+uuidv4()
-                let expiration = Date.now() + 24 * 3600000 * 14
-
-                //add user to db
-                db.collection("users").insertOne({
-                    gid: data.id,
-                    username: data.username,
-                    uid: uid,
-                    sid: sid,
-                    expires: expiration
-                })
-
-                //set sid cookie so they can sign in when loading the page
-                //expires after 2 weeks
-                res.cookie("sid", sid, {
-                    expires: new Date(expiration)
-                })
-                //name cookie to go in top right hand corner of screen
-                res.cookie("name",data.username, {
-                    expires: new Date(expiration)
-                })
-                res.send(JSON.stringify({
-                    status:"ok"
-                }))
-            }
             break;
         }
         case "cookielogin": {

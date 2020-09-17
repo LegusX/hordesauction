@@ -17,7 +17,8 @@ window.onload = function(){
             switch (data.status) {
                 case "ok": {
                     //server thinks everything is fine, send user back to home page
-                    window.location.href = "https://hordes.auction#"
+                    // window.location.href = "https://hordes.auction#"
+                    alert("ok")
                     break;
                 }
                 case "error": {
