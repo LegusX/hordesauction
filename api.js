@@ -1,5 +1,7 @@
 var mongo = require("mongodb").MongoClient;
-const { v4: uuidv4 } = require('uuid');
+const {
+    v4: uuidv4
+} = require('uuid');
 var sani = require("sanitize")()
 const fs = require("fs")
 
@@ -47,38 +49,42 @@ exports.post = function (req, res) {
         case "googlelogin": {
             //check if user has an account, if so send them to home, if not send them to sign up
             verify(data.id).then((gid) => {
-                db.collection("users").find({gid:gid}).count((err,num)=>{
+                db.collection("users").find({
+                    gid: gid
+                }).count((err, num) => {
                     if (num > 0) {
                         //probably need to do some more stuff here for logging in an existing user
                         res.send("https://hordes.auction")
-                    }
-                    else res.send("https://hordes.auction/signup?="+gid) //send user to signup
+                    } else res.send("https://hordes.auction/signup?=" + gid) //send user to signup
                 })
             }).catch(console.error);
             break;
         }
         case "signup": {
-            db.collection("users").find({gid:data.id}).count((err,num)=>{
+            db.collection("users").find({
+                gid: data.id
+            }).count((err, num) => {
                 if (num > 0) {
                     res.send(JSON.stringify({
                         status: "error",
                         info: "You already have a account associated with your Google account!"
-                    })) 
-                }
-                else {
-                    db.collection("users").find({username:data.username}).count((err,num)=>{
+                    }))
+                } else {
+                    db.collection("users").find({
+                        username: data.username
+                    }).count((err, num) => {
                         if (num > 0 && !res.headersSent) {
                             res.send(JSON.stringify({
                                 status: "error",
                                 info: "That username has already been taken."
-                            })) 
+                            }))
                         }
                         //if nothing has been sent as a response, complete signup
                         else if (!res.headersSent) {
                             let uid = uuidv4()
-                            let sid = uuidv4()+"-"+uuidv4()
+                            let sid = uuidv4() + "-" + uuidv4()
                             let expiration = Date.now() + 24 * 3600000 * 14
-            
+
                             //add user to db
                             db.collection("users").insertOne({
                                 gid: data.id,
@@ -87,18 +93,18 @@ exports.post = function (req, res) {
                                 sid: sid,
                                 expires: expiration
                             })
-            
+
                             //set sid cookie so they can sign in when loading the page
                             //expires after 2 weeks
                             res.cookie("sid", sid, {
                                 expires: new Date(expiration)
                             })
                             //name cookie to go in top right hand corner of screen
-                            res.cookie("name",data.username, {
+                            res.cookie("name", data.username, {
                                 expires: new Date(expiration)
                             })
                             res.send(JSON.stringify({
-                                status:"ok"
+                                status: "ok"
                             }))
                         }
                     })
