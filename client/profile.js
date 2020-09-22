@@ -8,12 +8,14 @@ window.onload = function(){
             headers: {
                 'Content-Type': 'application/json'
             }
+        }).then((r)=>{
+            if (r.ok) {
+                updatePage()
+            }
         })
     }
     else if (getCookie("ver") === "true") {
-        document.getElementById("loginbutton").style.display = "none"
-        document.getElementById("userDropdown").style.display = ""
-        document.getElementById("navbarDropdown").innerText = getCookie("name")
+        updatePage()
     }
 }
 
@@ -23,3 +25,9 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift()
   }
+
+function updatePage() {
+    document.getElementById("loginbutton").style.display = "none"
+    document.getElementById("userDropdown").style.display = ""
+    document.getElementById("navbarDropdown").innerText = getCookie("name")
+}

@@ -113,6 +113,27 @@ exports.post = function (req, res) {
             break;
         }
         case "cookielogin": {
+            db.collection("users").findOne({sid: req.cookies.sid}).then((found)=>{
+                if (found !== null) {
+                    if (found.expires < Date.now()) {
+                        //SID has expired
+                        //remove all cookies and tell them no
+                        res.cookie("sid", "")
+                        res.cookie("ver", "false")
+                        res.cookie("name", "")
+                        res.status(403)
+                        
+                        //update db so that they can sign in again
+                        found.expires = null
+                        found.sid = null
+                    }
+                    else {
+                        res.cookie("ver", "true")
+                        res.cookie("name", found.username)
+                        res.status(200)
+                    }
+                }
+            })
             break;
         }
     }

@@ -53,7 +53,16 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Item Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form> -->
-            <form><button formaction="/login" class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/login'">Sign in</button></form>
+            <form id="loginbutton"><button formaction="/login" class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/login'">Sign in</button></form>
+            <li class="nav-item dropdown" id="userDropdown" style='display: none;'>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username goes here</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Profile</a>
+                    <a class="dropdown-item" href="#">My Auctions</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/signout">Sign Out</a>
+                  </div>
+            </li>
         </div>
     </nav>
     go buy stuff please
