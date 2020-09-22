@@ -115,7 +115,7 @@ exports.post = function (req, res) {
         case "cookielogin": {
             db.collection("users").findOne({
                 sid: req.cookies.sid
-            }).then((found) => {
+            }, function (err, found) {
                 console.log("found")
                 if (found !== null) {
                     if (found.expires < Date.now()) {
@@ -135,6 +135,7 @@ exports.post = function (req, res) {
                         res.status(200)
                     }
                 }
+          
             })
             break;
         }
