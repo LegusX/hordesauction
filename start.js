@@ -5,9 +5,11 @@ var http = require('http');
 var fs = require("fs")
 var api = require ("./api.js")
 var bodyParser = require("body-parser")
+var cookieParser = require('cookie-parser')
 
 var devmode = false;
 
+app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', express.static(__dirname + '/client'));
