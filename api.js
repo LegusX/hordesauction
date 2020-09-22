@@ -69,6 +69,7 @@ exports.post = function (req, res) {
                                     expires: new Date(expiration)
                                 })
                                 res.cookie("ver", "true")
+                                res.send("https://hordes.auction")
                             }
                             else {
                                 res.cookie("sid", result.sid,{
@@ -78,9 +79,9 @@ exports.post = function (req, res) {
                                     expires: new Date(result.expires)
                                 })
                                 res.cookie("ver", "true")
+                                res.send("https://hordes.auction")
                             }
                         })
-                        res.send("https://hordes.auction")
                     } else res.send("https://hordes.auction/signup?=" + gid) //send user to signup
                 })
             }).catch(console.error);
