@@ -54,6 +54,32 @@ exports.post = function (req, res) {
                 }).count((err, num) => {
                     if (num > 0) {
                         //probably need to do some more stuff here for logging in an existing user
+                        db.collection("users").findOne({gid:gid}, function(err,result){
+                            //update sid
+                            if(result.expires == null || result.expires < Date.now()) {
+                                let sid = uuidv4() + "-" + uuidv4()
+                                let expiration = Date.now() + 24 * 3600000 * 14
+                                
+                                result.sid = sid
+                                result.expires = expiration
+                                res.cookie("sid", sid,{
+                                    expires: new Date(expiration)
+                                })
+                                res.cookie("name", result.username,{
+                                    expires: new Date(expiration)
+                                })
+                                res.cookie("ver", "true")
+                            }
+                            else {
+                                res.cookie("sid", result.sid,{
+                                    expires: new Date(result.expires)
+                                })
+                                res.cookie("name", result.username,{
+                                    expires: new Date(result.expires)
+                                })
+                                res.cookie("ver", "true")
+                            }
+                        })
                         res.send("https://hordes.auction")
                     } else res.send("https://hordes.auction/signup?=" + gid) //send user to signup
                 })
