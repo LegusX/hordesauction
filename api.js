@@ -145,3 +145,11 @@ exports.post = function (req, res) {
 exports.get = function (req, res) {
     res.send("this does absolutely nothing yet, go away")
 }
+
+exports.signout = function(req, res) {
+    res.clearCookie("name")
+    res.clearCookie("sid")
+    res.clearCookie("ver")
+    res.status(200)
+    res.end()
+}
