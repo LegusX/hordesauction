@@ -13,12 +13,11 @@ app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', express.static(__dirname + '/client'));
-app.use("/signout", (req,res) => api.signout(req,res))
-
 
 //send requests to the api module to be handled
 app.post('/api', (req, res) => api.post(req,res))
 app.get("/api", (req, res) => api.get(req,res))
+app.get("/signout", (req,res) => api.signout(req,res))
 
 // production env
 // checks to see if the certificate exists, if not move to dev env

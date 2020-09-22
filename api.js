@@ -151,5 +151,5 @@ exports.signout = function(req, res) {
     res.clearCookie("sid")
     res.clearCookie("ver")
     res.status(200)
-    res.end()
+    res.redirect("https://hordes.auction/")
 }
