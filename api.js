@@ -116,7 +116,7 @@ exports.post = function (req, res) {
             db.collection("users").findOne({
                 sid: req.cookies.sid
             }, function (err, found) {
-                console.log("found")
+                console.log(found)
                 if (found !== null) {
                     if (found.expires < Date.now()) {
                         //SID has expired
