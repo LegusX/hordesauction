@@ -1,6 +1,5 @@
 window.onload = function () {
     if (getCookie("sid") !== undefined && getCookie("ver") !== "true") {
-        console.log("fetching")
         fetch("/api", {
             method: "POST",
             body: JSON.stringify({
@@ -10,7 +9,6 @@ window.onload = function () {
                 'Content-Type': 'application/json'
             }
         }).then((r) => {
-            console.log("fetched")
             if (r.ok) {
                 updatePage()
             }
@@ -28,7 +26,6 @@ function getCookie(name) {
 }
 
 function updatePage() {
-    console.log("updating...")
     document.getElementById("loginbutton").style.display = "none"
     document.getElementById("userDropdown").style.display = ""
     document.getElementById("navbarDropdown").innerText = getCookie("name")
