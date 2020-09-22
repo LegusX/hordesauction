@@ -1,20 +1,21 @@
-window.onload = function(){
-    if(getCookie("sid") !== undefined && getCookie("ver") !== "true") {
+window.onload = function () {
+    if (getCookie("sid") !== undefined && getCookie("ver") !== "true") {
+        console.log("fetching")
         fetch("/api", {
-            method:"POST",
+            method: "POST",
             body: JSON.stringify({
-                type:"cookielogin"
+                type: "cookielogin"
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((r)=>{
+        }).then((r) => {
+            console.log("fetched")
             if (r.ok) {
                 updatePage()
             }
         })
-    }
-    else if (getCookie("ver") === "true") {
+    } else if (getCookie("ver") === "true") {
         updatePage()
     }
 }
@@ -24,9 +25,10 @@ function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift()
-  }
+}
 
 function updatePage() {
+    console.log("updating...")
     document.getElementById("loginbutton").style.display = "none"
     document.getElementById("userDropdown").style.display = ""
     document.getElementById("navbarDropdown").innerText = getCookie("name")
