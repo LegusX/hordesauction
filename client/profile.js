@@ -41,7 +41,7 @@ function checkRestriction() {
     if (document.querySelector('meta[name="restricted"]').content === "true") {
         //now ensure they are logged in, if not send them to sign in
         if (getCookie("ver") !== "true") {
-            window.location.href = "/signin"
+            window.location.href = "/login"
         }
     }
 }
