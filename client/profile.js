@@ -16,6 +16,9 @@ window.onload = function () {
     } else if (getCookie("ver") === "true") {
         updatePage()
     }
+    else {
+        checkRestriction()
+    }
 }
 
 //https://stackoverflow.com/a/15724300
@@ -29,4 +32,16 @@ function updatePage() {
     document.getElementById("loginbutton").style.display = "none"
     document.getElementById("userDropdown").style.display = ""
     document.getElementById("navbarDropdown").innerText = getCookie("name")
+    checkRestriction()
+}
+
+function checkRestriction() {
+    //see if they need to be kicked out or not
+    //first check if page has restricted stuffs
+    if (document.querySelector('meta[name="restricted"]').content === "true") {
+        //now ensure they are logged in, if not send them to sign in
+        if (getCookie("ver") !== "true") {
+            window.location.href = "/signin"
+        }
+    }
 }
