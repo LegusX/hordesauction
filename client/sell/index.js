@@ -3,7 +3,7 @@ window.onload = function() {
         if (document.getElementById("itemid").value.length === 9) {
             fetch("/api/lookup", {
                 method: "POST",
-                body: document.getElementById("itemid").textContent,
+                body: document.getElementById("itemid").value,
                 headers: {
                     'Content-Type': 'text/plain'
                 }
