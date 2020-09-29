@@ -20,7 +20,7 @@ app.use('/', express.static(__dirname + '/client'));
 app.post('/api', (req, res) => api.post(req, res))
 app.get("/api", (req, res) => api.get(req, res))
 app.get("/signout", (req, res) => api.signout(req, res))
-app.post("/api/lookup", (req, res) => api.lookup(req, res))
+app.post("/api/lookup", bodyParser.text({type: '*/*'}), (req, res) => api.lookup(req, res))
 
 // production env
 // checks to see if the certificate exists, if not move to dev env
