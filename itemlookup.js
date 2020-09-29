@@ -36,7 +36,7 @@ setInterval(function(){
             ids: ids
         }),
         headers: {
-            Cookie: "sid=s%3AW8eVcC9e1x9G3OU-P_HH023G9iSCTOvP.A0x7VORjMS6fny8siypqVvCIfZQUYOuEtdWjoa14a%2Fc; party="
+            Cookie: "sid=s%3AsmlpTtYLUeha-slfck7k33UVZ_lqubM6.gY4XaYDiJtSlyuwJBAG3HN8vH2A8kaeMEvkRPUFTY6g; party="
         }
     }).then((before)=>before.json()).then((data)=>{
         console.log(data)
