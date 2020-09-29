@@ -187,7 +187,7 @@ exports.signout = function(req, res) {
 exports.lookup = async function(req,res) {
     if (req.body.match(/[0-9]{9}/g).length === 1) {
         console.log(req.body.match(/[0-9]{9}/g))
-        console.log(parseInt(req.body.match(/[0-9]{9}/g)[1]))
+        console.log(Number(req.body.match(/[0-9]{9}/g)[1]))
         let item = await items.lookup(parseInt(req.body.match(/[0-9]{9}/g)[1]))
         console.log("sending data")
         res.json(item)
