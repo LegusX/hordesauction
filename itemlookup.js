@@ -28,6 +28,7 @@ setInterval(function(){
         })
     }
     fetch("https://hordes.io/api/items", {
+        method: "POST",
         body: JSON.stringify({
             auction:1,
             ids: ids
