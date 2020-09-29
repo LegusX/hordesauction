@@ -186,5 +186,6 @@ exports.signout = function(req, res) {
 //process req/res before sending it off to itemlookup.js
 exports.lookup = async function(req,res) {
     let item = await items.lookup(req.body)
+    console.log("sending data")
     res.json(item)
 }

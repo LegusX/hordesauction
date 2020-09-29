@@ -7,9 +7,11 @@ var pending = {}
 
 
 exports.lookup = function(id) {
+    console.log(id)
     return new Promise(function(res,reject){
         waitlist[id] = function(data) {
             //if the ID doesn't exist, return null
+            console.log(data)
             if (typeof data === "undefined") res(null)
             else res(data)
         }
@@ -43,4 +45,4 @@ setInterval(function(){
             delete pending[data[i].id]
         }
     })
-}, 10000)
+}, 500)

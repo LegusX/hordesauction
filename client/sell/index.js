@@ -12,6 +12,7 @@ window.onload = function() {
                 if (data === null) alert("Item ID does not exist!")
             })
         }
+        else alert("That item ID is not the valid length! (9 numbers long)")
     })
 }
 
