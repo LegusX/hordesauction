@@ -27,7 +27,7 @@ setInterval(function(){
             delete waitlist[id]
         })
     }
-    fetch("https://hordes.io/api/items", {
+    fetch("https://hordes.io/api/item", {
         method: "POST",
         body: JSON.stringify({
             auction:1,
@@ -43,4 +43,4 @@ setInterval(function(){
             delete pending[data[i].id]
         }
     })
-}, 500)
+}, 10000)
