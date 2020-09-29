@@ -28,6 +28,7 @@ setInterval(function(){
             delete waitlist[id]
         })
     }
+    console.log(ids)
     fetch("https://hordes.io/api/item", {
         method: "POST",
         body: JSON.stringify({
@@ -38,6 +39,7 @@ setInterval(function(){
             Cookie: "sid=s%3AW8eVcC9e1x9G3OU-P_HH023G9iSCTOvP.A0x7VORjMS6fny8siypqVvCIfZQUYOuEtdWjoa14a%2Fc; party="
         }
     }).then((before)=>before.json()).then((data)=>{
+        console.log(data)
         for (let i = 0; i++; i< data.length) {
             //send data to promise then delete it
             pending[data[i].id].run(data[i])
