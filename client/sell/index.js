@@ -1,7 +1,7 @@
 window.onload = function() {
     document.getElementById("checkid").addEventListener("click", function(){
         if (document.getElementById("itemid").textContent.length == 9) {
-            fetch({
+            fetch("/api/lookup", {
                 method: "POST",
                 body: document.getElementById("itemid").textContent,
                 headers: {
