@@ -22,6 +22,7 @@
     "express": "^4.17.1",
     "google-auth-library": "^6.0.6",
     "mongodb": "^3.5.7",
+    "node-fetch": "^2.6.1",
     "sanitize": "^2.1.0",
     "uuid": "^8.3.0"
   }

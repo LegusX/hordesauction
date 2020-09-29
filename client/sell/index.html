@@ -11,14 +11,12 @@
     <meta name="twitter:card" content="Bid on and sell items from the browser game Hordes.io here!">
     <meta name="twitter:site" content="@LegusX">
     <meta name="twitter:title" content="Hordes.Auction">
-    <meta name="twitter:description" content="Page description less than 200 characters">
     <meta name="twitter:image" content="http://www.example.com/image.jpg">
 
     <meta property="og:title" content="Hordes.Auction" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://hordes.auction" />
-    <!-- <meta property="og:image" content="http://example.com/image.jpg" /> -->
-    <meta property="og:description" content="The place to buy and sell items from Hordes.io for the best prices" />
+    <meta property="og:description" content="List items on the market" />
     <meta property="og:site_name" content="Hordes.Auction" />
 
     <!-- Bootstrap CSS -->
@@ -28,6 +26,11 @@
     <title>Item Lister - Hordes.Auction</title>
     <script src="/profile.js"></script>
     <meta name="restricted" content="true">
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 </head>
 
 <body>
@@ -51,19 +54,28 @@
                     <a class="nav-link" href="#">Sell</a>
                 </li>
             </ul>
-            <form id="loginbutton"><button formaction="/login" class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/login'">Sign in</button></form>
+            <form id="loginbutton"><button formaction="/login" class="btn btn-outline-success my-2 my-sm-0"
+                    onclick="location.href='/login'">Sign in</button></form>
             <li class="nav-item dropdown" id="userDropdown" style='display: none;'>
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username goes here</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Username goes here</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#">Profile</a>
                     <a class="dropdown-item" href="#">My Auctions</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/signout">Sign Out</a>
-                  </div>
+                </div>
             </li>
         </div>
     </nav>
 
+    <form>
+        <div class="form-group">
+            <label for="itemid" data-toggle="tooltip" data-placement="top" title="These are displayed on with your item stats when you hover over them in game">Item ID #</label>
+            <input type="text" class="form-control" id="itemid" placeholder="123456789" max="9" min="9" pattern="[0-9]">
+        </div>
+        <button id="checkid">Check ID</button>
+    </form>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

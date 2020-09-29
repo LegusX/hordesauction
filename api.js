@@ -4,6 +4,8 @@ const {
 } = require('uuid');
 var sani = require("sanitize")()
 const fs = require("fs")
+const items = require("./itemlookup.js")
+
 
 //google oauth crap
 const {
@@ -179,4 +181,10 @@ exports.signout = function(req, res) {
     res.clearCookie("ver")
     res.status(200)
     res.redirect("https://hordes.auction/")
+}
+
+//process req/res before sending it off to itemlookup.js
+exports.lookup = async function(req,res) {
+    let item = await items.lookup(req.body)
+    res.json(item)
 }
