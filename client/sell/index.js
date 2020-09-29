@@ -8,6 +8,7 @@ window.onload = function() {
                     'Content-Type': 'text/plain'
                 }
             }).then((r)=>{r.json()}).then((data)=>{
+                console.log(data)
                 if (data === null) alert("Item ID does not exist!")
             })
         }
