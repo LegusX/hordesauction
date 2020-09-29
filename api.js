@@ -185,8 +185,11 @@ exports.signout = function(req, res) {
 
 //process req/res before sending it off to itemlookup.js
 exports.lookup = async function(req,res) {
-    console.log(req.body)
-    let item = await items.lookup(req.body)
-    console.log("sending data")
-    res.json(item)
+    if (req.body.match(/[0-9]{9}/g).length === 1) {
+        let item = await items.lookup(parseInt(req.body.match(/[0-9]{9}/g)[1]))
+        console.log("sending data")
+        res.json(item)
+    }
+    //if it isn't an ID respond with 400
+    else res.status(400).end()
 }

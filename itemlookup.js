@@ -7,7 +7,6 @@ var pending = {}
 
 
 exports.lookup = function(id) {
-    console.log(id +"id")
     return new Promise(function(res,reject){
         waitlist[id] = function(data) {
             //if the ID doesn't exist, return null
@@ -25,7 +24,7 @@ setInterval(function(){
         Object.getOwnPropertyNames(waitlist).forEach(function(id,i){
             //add id to list, then remove it so it doesn't get re-requested
             ids.push(id)
-            pending[id] =  waitlist[id]
+            pending[id] = waitlist[id]
             delete waitlist[id]
         })
     }
