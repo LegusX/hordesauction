@@ -26,6 +26,17 @@
     <title>Item Lister - Hordes.Auction</title>
     <script src="/profile.js"></script>
     <meta name="restricted" content="true">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
@@ -71,22 +82,12 @@
 
     <form>
         <div class="form-group">
-            <label for="itemid" data-toggle="tooltip" data-placement="top" title="These are displayed on with your item stats when you hover over them in game">Item ID #</label>
+            <label for="itemid" data-toggle="tooltip" data-placement="top"
+                title="These are displayed on with your item stats when you hover over them in game">Item ID #</label>
             <input type="text" class="form-control" id="itemid" placeholder="123456789" max="9" min="9" pattern="[0-9]">
         </div>
-        <button id="checkid">Check ID</button>
+        <button id="checkid" type="button" class="btn btn-primary">Check ID</button>
     </form>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
-    </script>
 </body>
 
 </html>
