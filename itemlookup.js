@@ -10,12 +10,7 @@ var pending = {}
 
 exports.lookup = function (id) {
     return new Promise(function (res, reject) {
-        waitlist[id] = function (data) {
-            //if the ID doesn't exist, return null
-            console.log(data + "returndata")
-            if (typeof data === "undefined") res(null)
-            else res(data)
-        }
+        waitlist[id] = res
     })
 }
 
@@ -31,10 +26,9 @@ setInterval(function () {
             delete waitlist[id]
         })
         console.log(ids)
-        fetch("https://hordes.io/api/item", {
+        fetch("https://hordes.io/api/item/get", {
             method: "POST",
             body: JSON.stringify({
-                auction: 1,
                 ids: ids
             }),
             headers: {
@@ -42,10 +36,16 @@ setInterval(function () {
             }
         }).then((before) => before.json()).then((data) => {
             console.log(data)
-            for (let i = 0; i++; i < data.length) {
+            for (let i = 0; i < data.length; i++) {
                 //send data to promise then delete it
-                pending[data[i].id].run(data[i])
+                pending[data[i].id](data[i])
+                ids.splice(ids.indexOf(data[i].id),1)
                 delete pending[data[i].id]
+            }
+            //any leftover ids don't exist apparently
+            for (let i = 0; i < ids.length; i++) {
+                pending[ids[i]](null)
+                delete pending[ids[i]]
             }
         })
     }

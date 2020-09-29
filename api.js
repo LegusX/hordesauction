@@ -31,7 +31,8 @@ async function verify(token) {
 
 //connect to db
 mongo.connect(url, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 }, function (err, dbase) {
     if (err) throw err;
     db = dbase.db("data")
@@ -185,9 +186,13 @@ exports.signout = function(req, res) {
 
 //process req/res before sending it off to itemlookup.js
 exports.lookup = async function(req,res) {
-    if (req.body.match(/[0-9]{9}/g).length === 1) {
+    //check to see if a 8/9 character ID can be found in the string
+    if (req.body.match(/[0-9]{9}/g) !== null) {
         let item = await items.lookup(parseInt(req.body.match(/[0-9]{9}/g)[0]))
-        console.log("sending data")
+        res.json(item)
+    }
+    else if (req.body.match(/[0-9]{8}/g) !== null) {
+        let item = await items.lookup(parseInt(req.body.match(/[0-9]{8}/g)[0]))
         res.json(item)
     }
     //if it isn't an ID respond with 400

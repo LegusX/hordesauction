@@ -1,20 +1,28 @@
-window.onload = function() {
-    document.getElementById("checkid").addEventListener("click", function(){
-        if (document.getElementById("itemid").value.length === 9) {
+window.onload = function () {
+    document.getElementById("checkid").addEventListener("click", function () {
+        if (document.getElementById("itemid").value.length === 9 || document.getElementById("itemid").value.length === 8) {
             fetch("/api/lookup", {
                 method: "POST",
                 body: document.getElementById("itemid").value,
                 headers: {
                     'Content-Type': 'text/plain'
                 }
-            }).then((r)=>{r.json()}).then((data)=>{
-                console.log(data)
-                if (data === null) alert("Item ID does not exist!")
+            }).then((r) => {
+                if (r.status !== 400) {
+                    r.json().then((data) => {
+                        if (data === null) alert("Item does not exist!")
+                        else {
+                            //idk do something
+                            alert(`type: ${data.type}\ntier: ${data.tier+1}`)
+                        }
+                    })
+                }
+                else alert("That is an invalid ID (Probably has a non-int character)")
             })
         }
-        else alert("That item ID is not the valid length! (9 numbers long)")
+        else alert("Invalid ID (wrong length)")
     })
-}
 
-//need to add code that sends an ID to itemlookup to see if it exists and can be sold
-//and then I need to make sure that itemlookup actually works
+    //need to add code that sends an ID to itemlookup to see if it exists and can be sold
+    //and then I need to make sure that itemlookup actually works
+}
