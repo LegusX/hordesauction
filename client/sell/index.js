@@ -11,6 +11,7 @@ window.onload = function () {
                 if (r.status !== 400) {
                     r.json().then((data) => {
                         if (data === null) alert("Item does not exist!")
+                        else if (data.status === "denied") alert("Error: Cookie expired")
                         else {
                             //idk do something
                             alert(`type: ${data.type}\ntier: ${data.tier+1}`)

@@ -32,20 +32,22 @@ setInterval(function () {
                 ids: ids
             }),
             headers: {
-                Cookie: "sid=s%3AsmlpTtYLUeha-slfck7k33UVZ_lqubM6.gY4XaYDiJtSlyuwJBAG3HN8vH2A8kaeMEvkRPUFTY6g; party="
+                Cookie: "sid:s%3AJDlIHL3BeuO89xQpfXsgX1k6rFMDiuvL.UHhZ00K2Mg02Ea7g%2BQvAW0hiqgaxfl%2Fr9Bv1C86aKZY; party="
             }
         }).then((before) => before.json()).then((data) => {
-            console.log(data)
-            for (let i = 0; i < data.length; i++) {
-                //send data to promise then delete it
-                pending[data[i].id](data[i])
-                ids.splice(ids.indexOf(data[i].id),1)
-                delete pending[data[i].id]
-            }
-            //any leftover ids don't exist apparently
-            for (let i = 0; i < ids.length; i++) {
-                pending[ids[i]](null)
-                delete pending[ids[i]]
+            if (data.status === "denied") pending(data)
+            else {
+                for (let i = 0; i < data.length; i++) {
+                    //send data to promise then delete it
+                    pending[data[i].id](data[i])
+                    ids.splice(ids.indexOf(data[i].id),1)
+                    delete pending[data[i].id]
+                }
+                //any leftover ids don't exist apparently
+                for (let i = 0; i < ids.length; i++) {
+                    pending[ids[i]](null)
+                    delete pending[ids[i]]
+                }
             }
         })
     }
