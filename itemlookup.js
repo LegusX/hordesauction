@@ -1,8 +1,6 @@
-const {
-    isRedirect
-} = require("node-fetch")
 //Adds ids to a list that are requested from the Hordes api in bulk, instead of many single item requests
 const fetch = require("node-fetch")
+var mongo = require("mongodb").MongoClient;
 
 var waitlist = {}
 var pending = {}
@@ -32,22 +30,19 @@ setInterval(function () {
                 ids: ids
             }),
             headers: {
-                Cookie: "sid:s%3AJDlIHL3BeuO89xQpfXsgX1k6rFMDiuvL.UHhZ00K2Mg02Ea7g%2BQvAW0hiqgaxfl%2Fr9Bv1C86aKZY; party="
+                Cookie: "sid=s%3AQfmt_UdTR1cfmCCDhI-7KtqQ9EiWKC2R.CwX0vvj%2ByxrfkHJ0f5YHe2v5CRkL%2FFIhv4%2Fy1561PnU; party="
             }
         }).then((before) => before.json()).then((data) => {
-            if (data.status === "denied") pending(data)
-            else {
-                for (let i = 0; i < data.length; i++) {
-                    //send data to promise then delete it
-                    pending[data[i].id](data[i])
-                    ids.splice(ids.indexOf(data[i].id),1)
-                    delete pending[data[i].id]
-                }
-                //any leftover ids don't exist apparently
-                for (let i = 0; i < ids.length; i++) {
-                    pending[ids[i]](null)
-                    delete pending[ids[i]]
-                }
+            for (let i = 0; i < data.length; i++) {
+                //send data to promise then delete it
+                pending[data[i].id](data[i])
+                ids.splice(ids.indexOf(data[i].id), 1)
+                delete pending[data[i].id]
+            }
+            //any leftover ids don't exist apparently
+            for (let i = 0; i < ids.length; i++) {
+                pending[ids[i]](null)
+                delete pending[ids[i]]
             }
         })
     }

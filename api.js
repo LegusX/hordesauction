@@ -189,11 +189,13 @@ exports.lookup = async function(req,res) {
     //check to see if a 8/9 character ID can be found in the string
     if (req.body.match(/[0-9]{9}/g) !== null) {
         let item = await items.lookup(parseInt(req.body.match(/[0-9]{9}/g)[0]))
-        res.json(item)
+        if (item.status) res.status(401).end() //If response is status:denied, then let the client know that the cookie needs updating
+        else res.json(item)
     }
     else if (req.body.match(/[0-9]{8}/g) !== null) {
         let item = await items.lookup(parseInt(req.body.match(/[0-9]{8}/g)[0]))
-        res.json(item)
+        if (item.status) res.status(401).end() //If response is status:denied, then let the client know that the cookie needs updating
+        else res.json(item)
     }
     //if it isn't an ID respond with 400
     else res.status(400).end()

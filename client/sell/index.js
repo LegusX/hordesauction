@@ -8,16 +8,16 @@ window.onload = function () {
                     'Content-Type': 'text/plain'
                 }
             }).then((r) => {
-                if (r.status !== 400) {
+                if (r.status !== 400 && r.status !== 401) {
                     r.json().then((data) => {
                         if (data === null) alert("Item does not exist!")
-                        else if (data.status === "denied") alert("Error: Cookie expired")
                         else {
                             //idk do something
                             alert(`type: ${data.type}\ntier: ${data.tier+1}`)
                         }
                     })
                 }
+                else if (r.status === 401) alert("Error: Cookie Denied (Tell LegusX)")
                 else alert("That is an invalid ID (Probably has a non-int character)")
             })
         }
