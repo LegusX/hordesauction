@@ -1,6 +1,7 @@
 //Adds ids to a list that are requested from the Hordes api in bulk, instead of many single item requests
 const fetch = require("node-fetch")
 var mongo = require("mongodb").MongoClient;
+const Item = require("./hydrate/hydrate.js").hydrate
 
 var waitlist = {}
 var pending = {}
@@ -23,19 +24,22 @@ setInterval(function () {
             pending[id] = waitlist[id]
             delete waitlist[id]
         })
-        console.log(ids)
         fetch("https://hordes.io/api/item/get", {
             method: "POST",
             body: JSON.stringify({
                 ids: ids
             }),
             headers: {
-                Cookie: "sid=s%3AQfmt_UdTR1cfmCCDhI-7KtqQ9EiWKC2R.CwX0vvj%2ByxrfkHJ0f5YHe2v5CRkL%2FFIhv4%2Fy1561PnU; party="
+                Cookie: "sid=s%3AJ6YLWszbF5GNzygb0dhVzlynNhghzoag.9DSTv1nHEASjecYHS5UC4Nm9rh6vuJ5ZSSLiiE2P86w; party="
             }
         }).then((before) => before.json()).then((data) => {
             for (let i = 0; i < data.length; i++) {
                 //send data to promise then delete it
-                pending[data[i].id](data[i])
+                let item = new Item()
+                item.hydrate(data[i])
+                //if the item couldn't be hydrated, then just claim it doesn't exist ig
+                if (item.id === null) item = null
+                pending[data[i].id](item)
                 ids.splice(ids.indexOf(data[i].id), 1)
                 delete pending[data[i].id]
             }

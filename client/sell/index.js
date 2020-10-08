@@ -13,7 +13,8 @@ window.onload = function () {
                         if (data === null) alert("Item does not exist!")
                         else {
                             //idk do something
-                            document.getElementById("testing").innerHTML = JSON.stringify(data, null, 2)
+                            // document.getElementById("testing").innerHTML = JSON.stringify(data, null, 2)
+                            console.dir(JSON.stringify(data, null, 2))
                         }
                     })
                 }
