@@ -1,4 +1,4 @@
-window.onload = function () {
+window.addEventListener("load", function () {
     if (getCookie("sid") !== undefined && getCookie("ver") !== "true") {
         fetch("/api", {
             method: "POST",
@@ -19,7 +19,7 @@ window.onload = function () {
     else {
         checkRestriction()
     }
-}
+})
 
 //https://stackoverflow.com/a/15724300
 function getCookie(name) {
@@ -38,7 +38,7 @@ function updatePage() {
 function checkRestriction() {
     //see if they need to be kicked out or not
     //first check if page has restricted stuffs
-    if (document.querySelector('meta[name="restricted"]').content === "true") {
+    if (!location.href.includes("localhost") && document.querySelector('meta[name="restricted"]').content === "true") {
         //now ensure they are logged in, if not send them to sign in
         if (getCookie("ver") !== "true") {
             window.location.href = "/login"

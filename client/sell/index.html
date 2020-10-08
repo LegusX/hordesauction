@@ -25,6 +25,8 @@
     <title>Item Lister - Hordes.Auction</title>
     <script src="/profile.js"></script>
     <script src="./index.js"></script>
+    <script src="/itemdisplay/itemdisplay.js"></script>
+    <link rel="stylesheet" href="/itemdisplay/itemdisplay.css">
     <meta name="restricted" content="true">
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
@@ -91,13 +93,33 @@
         </div>
     </nav>
     <div class="form-group">
-        <label for="itemid" data-toggle="tooltip" data-placement="top"
-                title="These are displayed with your item stats when you hover over the item in game">Item ID #</label>
+        <label for="itemid" data-toggle="tooltip" data-placement="top" title="These are displayed with your item stats when you hover over the item in game">Item ID #</label>
         <input type="text" class="form-control" id="itemid" placeholder="123456789">
-        </div>
+    </div>
         <button id="checkid" type="button" class="btn btn-primary">Check ID</button>
         <p>Hydrated Item Data: </p>
         <p id="testing"></p>
+        <!-- <div style="background-color: black; width:10vw;">
+        <h3 id="itemname">Some Name Here</h3>
+        <div style="height: 25vh; width: 50vw;">
+            <img id="itemimage" style="object-fit: contain;" src="https://hordes.io/assets/items/quiver/quiver0_q0.webp?v=4448424">
+        </div>
+        <p id="tier">Tier 0</p>
+        <p id="type">Item</p>
+    </div> -->
+        <div class="container" style="background-color: lightgrey; display:none;" id="itemdiv">
+            <div class="row">
+                <div class="col-sm">
+                    <h3 id="name">Stupid name</h3>
+                    <h4 id="typetier">other stupid stuff</h4>
+                    <img id=itemimage src="https://hordes.io/assets/items/quiver/quiver0_q0.webp?v=4448424"                    >
+                </div>
+                    <div class="col-sm" id="regstats">
+                    </div>
+                    <div class="col-sm" id="bonusstats">
+                    </div>
+                </div>
+            </div>
 </body>
 
 </html>
