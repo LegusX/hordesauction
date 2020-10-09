@@ -1,5 +1,5 @@
-window.onload = function () {
-    document.getElementById("checkid").addEventListener("click", function () {
+window.onload = function() {
+    document.getElementById("checkid").addEventListener("click", function() {
         if (document.getElementById("itemid").value.length === 9 || document.getElementById("itemid").value.length === 8) {
             fetch("/api/lookup", {
                 method: "POST",
@@ -15,15 +15,28 @@ window.onload = function () {
                             //idk do something
                             console.log(data)
                             sellDisplay(data)
+                            // document.getElementById
                         }
                     })
-                }
-                else if (r.status === 401) alert("Error: Cookie Denied (Tell LegusX)")
+                } else if (r.status === 401) alert("Error: Cookie Denied (Tell LegusX)")
                 else alert("That is an invalid ID (Probably has a non-int character)")
             })
-        }
-        else alert("Invalid ID (wrong length)")
+        } else alert("Invalid ID (wrong length)")
     })
+    //slightly adapted from https://stackoverflow.com/questions/19966417/prevent-typing-non-numeric-in-input-type-number
+    let idlist = ["itemid", "itemprice", "bidinc"]
+    idlist.forEach((id) => {
+        document.getElementById(id).addEventListener("keypress", function(e) {
+            var allowedChars = '0123456789.';
+
+            function contains(stringValue, charValue) {
+                return stringValue.indexOf(charValue) > -1;
+            }
+            var invalidKey = e.key.length === 1 && !contains(allowedChars, e.key) ||
+                e.key === '.' && contains(e.target.value, '.');
+            invalidKey && e.preventDefault();
+        })
+    });
 
     //need to add code that sends an ID to itemlookup to see if it exists and can be sold
     //and then I need to make sure that itemlookup actually works

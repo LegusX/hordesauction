@@ -95,31 +95,38 @@
     <div class="form-group">
         <label for="itemid" data-toggle="tooltip" data-placement="top" title="These are displayed with your item stats when you hover over the item in game">Item ID #</label>
         <input type="text" class="form-control" id="itemid" placeholder="123456789">
-    </div>
         <button id="checkid" type="button" class="btn btn-primary">Check ID</button>
-        <p>Hydrated Item Data: </p>
-        <p id="testing"></p>
-        <!-- <div style="background-color: black; width:10vw;">
-        <h3 id="itemname">Some Name Here</h3>
-        <div style="height: 25vh; width: 50vw;">
-            <img id="itemimage" style="object-fit: contain;" src="https://hordes.io/assets/items/quiver/quiver0_q0.webp?v=4448424">
-        </div>
-        <p id="tier">Tier 0</p>
-        <p id="type">Item</p>
-    </div> -->
-        <div class="container" style="background-color: lightgrey; display:none;" id="itemdiv">
-            <div class="row">
-                <div class="col-sm">
-                    <h3 id="name">Stupid name</h3>
-                    <h4 id="typetier">other stupid stuff</h4>
-                    <img id=itemimage src="https://hordes.io/assets/items/quiver/quiver0_q0.webp?v=4448424"                    >
+    </div>
+    <div id="listitem" class="container" style="display:none;">
+        <dic class="row">
+            <div class="container col-lg" style="background-color: lightgrey;">
+                <div class="row">
+                    <div class="col-sm">
+                        <h3 id="name">Stupid name</h3>
+                        <h4 id="typetier">other stupid stuff</h4>
+                        <img id=itemimage src="https://hordes.io/assets/items/quiver/quiver0_q0.webp?v=4448424">
+                    </div>
+                        <div class="col-sm" id="regstats">
+                        </div>
+                        <div class="col-sm" id="bonusstats">
+                        </div>
+                    </div>
                 </div>
-                    <div class="col-sm" id="regstats">
-                    </div>
-                    <div class="col-sm" id="bonusstats">
-                    </div>
+                <div class="form-group container col-lg">
+                    <label for="itemprice">Starting Bid Price:</label>
+                    <input id="itemprice" type="number" min="0" max="2147483645" class="form-control input-sm" style="width:60%;display:inline;">
+                    <img src="/assets/question.png" style="height:20px;width:20px" data-toggle="tooltip" data-placement="top" title="This is the minimum amount your item can sell for."><br>
+                    <label for="bidinc">Minimum bid requirement:</label>
+                    <input id="bidinc" type="number" min="0" max="1000" class="form-control input-sm" style="width:48%;display:inline;">
+                    <img src="/assets/question.png" style="height:20px;width:20px" data-toggle="tooltip" data-placement="top" title="All bids made on your item must be equal to or greater than this amount"><br>
+                    <label for="date">Auction end date:</label>
+                    <input id="date" type="date" class="form-control input-sm" style="width:60%;display:inline;">
+                    <img src="/assets/question.png" style="height:20px;width:20px" data-toggle="tooltip" data-placement="top" title="All auctions end at 11:59 PM GMT-6"><br>
+                    <button class="btn btn-primary" type="button" id="listbutton">List Item</button>
+                    <h5 id="warning" style="color:red;display:none;">random text go here</h5>
                 </div>
             </div>
+    </div>
 </body>
 
 </html>

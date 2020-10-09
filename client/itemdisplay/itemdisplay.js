@@ -38,7 +38,7 @@ window.sellDisplay = (item) => {
         }
     })
     //unhide everything at the end
-    document.getElementById("itemdiv").style.display = ""
+    document.getElementById("listitem").style.display = ""
 }
 
 function _quality(per) {
