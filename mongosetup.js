@@ -9,6 +9,4 @@ mongo.connect(url, function(err,dbase) {
     db.collection("users").insert({"type":"uselessfillerdata"})
     db.createCollection("auctions")
     db.collection("auctions").insert({"type":"uselessfillerdata"})
-    db.createCollection("items")
-    db.collection("auctions").insert({"type":"uselessfillerdata"})
 })

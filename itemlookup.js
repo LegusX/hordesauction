@@ -2,113 +2,51 @@
 const fetch = require("node-fetch")
 var mongo = require("mongodb").MongoClient;
 const Item = require("./hydrate/hydrate.js").hydrate
-const fs = require("fs")
 
 var waitlist = {}
 var pending = {}
 
-var url;
-if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) url = "mongodb://localhost:27017/";
-else url = "mongodb+srv://legusx:t3tckgmagrMOfdeo@auctiondev.bbrbb.mongodb.net/data?retryWrites=true&w=majority"
 
-//connect to db
-mongo.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}, function(err, dbase) {
-    if (err) throw err;
-    db = dbase.db("data")
-
-})
-
-exports.lookup = function(id) {
-    return new Promise(function(res, reject) {
+exports.lookup = function (id) {
+    return new Promise(function (res, reject) {
         waitlist[id] = res
     })
 }
 
-function updateItem(item) {
-    db.collection("items").findOneAndReplace({id:item.id}, item, {upsert:true})
-}
 //Bulk retrive item data every 0.5 seconds (if any to retrieve)
-setInterval(function() {
+setInterval(function () {
     let ids = []
     if (Object.getOwnPropertyNames(waitlist).length > 0) {
-        Object.getOwnPropertyNames(waitlist).forEach(function(id, i) {
+        Object.getOwnPropertyNames(waitlist).forEach(function (id, i) {
             //add id to list, then remove it so it doesn't get re-requested
             //random comment that is completely useless so that this will work
             ids.push(id)
             pending[id] = waitlist[id]
             delete waitlist[id]
         })
-        db.collection("items").find({
-            id: id
-        }).count((err, num) => {
-            if (num > 0) {
-                db.collection("items").findOne({
-                    id: id
-                }, function(err, result) {
-                    if (result.expires < Date.now()) {
-                        fetch("https://hordes.io/api/item/get", {
-                            method: "POST",
-                            body: JSON.stringify({
-                                ids: ids
-                            }),
-                            headers: {
-                                Cookie: "sid=s%3AJ6YLWszbF5GNzygb0dhVzlynNhghzoag.9DSTv1nHEASjecYHS5UC4Nm9rh6vuJ5ZSSLiiE2P86w; party="
-                            }
-                        }).then((before) => before.json()).then((data) => {
-                            for (let i = 0; i < data.length; i++) {
-                                //send data to promise then delete it
-                                let item = new Item()
-                                item.hydrate(data[i])
-                                //if the item couldn't be hydrated, then just claim it doesn't exist ig
-                                if (item.id === null) item = null
-                                pending[data[i].id](item)
-                                ids.splice(ids.indexOf(data[i].id), 1)
-                                delete pending[data[i].id]
-                                updateItem(item)
-                            }
-                            //any leftover ids don't exist apparently
-                            for (let i = 0; i < ids.length; i++) {
-                                pending[ids[i]](null)
-                                delete pending[ids[i]]
-                            }
-                        })
-                    }
-                    else {
-                        pending[id](result.data)
-                    }
-                })
+        fetch("https://hordes.io/api/item/get", {
+            method: "POST",
+            body: JSON.stringify({
+                ids: ids
+            }),
+            headers: {
+                Cookie: "sid=s%3AJ6YLWszbF5GNzygb0dhVzlynNhghzoag.9DSTv1nHEASjecYHS5UC4Nm9rh6vuJ5ZSSLiiE2P86w; party="
             }
-            //item wasn't found in DB, needs to be looked up
-            else {
-                fetch("https://hordes.io/api/item/get", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        ids: ids
-                    }),
-                    headers: {
-                        Cookie: "sid=s%3AJ6YLWszbF5GNzygb0dhVzlynNhghzoag.9DSTv1nHEASjecYHS5UC4Nm9rh6vuJ5ZSSLiiE2P86w; party="
-                    }
-                }).then((before) => before.json()).then((data) => {
-                    for (let i = 0; i < data.length; i++) {
-                        //send data to promise then delete it
-                        let item = new Item()
-                        item.hydrate(data[i])
-                        //if the item couldn't be hydrated, then just claim it doesn't exist ig
-                        if (item.id === null) item = null
-                        pending[data[i].id](item)
-                        ids.splice(ids.indexOf(data[i].id), 1)
-                        delete pending[data[i].id]
-                        updateItem(item)
-                    }
-                    //any leftover ids don't exist apparently
-                    for (let i = 0; i < ids.length; i++) {
-                        pending[ids[i]](null)
-                        delete pending[ids[i]]
-                    }
-                })
+        }).then((before) => before.json()).then((data) => {
+            for (let i = 0; i < data.length; i++) {
+                //send data to promise then delete it
+                let item = new Item()
+                item.hydrate(data[i])
+                //if the item couldn't be hydrated, then just claim it doesn't exist ig
+                if (item.id === null) item = null
+                pending[data[i].id](item)
+                ids.splice(ids.indexOf(data[i].id), 1)
+                delete pending[data[i].id]
+            }
+            //any leftover ids don't exist apparently
+            for (let i = 0; i < ids.length; i++) {
+                pending[ids[i]](null)
+                delete pending[ids[i]]
             }
         })
     }
