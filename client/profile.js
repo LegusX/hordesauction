@@ -1,4 +1,4 @@
-window.addEventListener("load", function () {
+// window.addEventListener("load", function () {
     if (getCookie("sid") !== undefined && getCookie("ver") !== "true") {
         fetch("/api", {
             method: "POST",
@@ -19,7 +19,7 @@ window.addEventListener("load", function () {
     else {
         checkRestriction()
     }
-})
+// })
 
 //https://stackoverflow.com/a/15724300
 function getCookie(name) {
