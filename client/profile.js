@@ -1,22 +1,26 @@
-if (getCookie("sid") !== undefined && getCookie("ver") !== "true") {
-    fetch("/api", {
-        method: "POST",
-        body: JSON.stringify({
-            type: "cookielogin"
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then((r) => {
-        if (r.ok) {
-            updatePage()
-        }
-    })
-} else if (getCookie("ver") === "true") {
-    updatePage()
-} else {
-    checkRestriction()
-}
+window.addEventListener("load", () => {
+    if (getCookie("sid") !== undefined && getCookie("ver") !== "true") {
+        fetch("/api", {
+            method: "POST",
+            body: JSON.stringify({
+                type: "cookielogin"
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((r) => {
+            if (r.ok) {
+                updatePage()
+            }
+        })
+    } 
+    else if (getCookie("ver") === "true") {
+        updatePage()
+    } 
+    else {
+        checkRestriction()
+    }
+})
 
 //https://stackoverflow.com/a/15724300
 function getCookie(name) {
