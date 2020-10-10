@@ -1,25 +1,22 @@
-const WebSocket = require("ws")
-var client = new WebSocket("ws://hordes.io:5002", {
-    headers:{
-        Cookie: "sid=s%3AxUr8WHIpKMW9v6vCqNBHsJbKa4xk7DPN.kWDI7azSqRP0wCKf2sTX5q41G5W%2B2UunSNiHOg1sU6g; party=",
-        // "Sec-WebSocket-Key": "XTyb34hjKbbXtOpsHNSGKg==",
-        // "Sec-WebSocket-Extensions": "permessage-deflate"
-    }
+const fetch = require("node-fetch")
+var mongo = require("mongodb").MongoClient;
+const Item = require("./hydrate/hydrate.js").hydrate
+const fs = require("fs")
+
+var url;
+if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) url = "mongodb://localhost:27017/";
+else url = "mongodb+srv://legusx:t3tckgmagrMOfdeo@auctiondev.bbrbb.mongodb.net/data?retryWrites=true&w=majority"
+
+//connect to db
+mongo.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}, function(err, dbase) {
+    if (err) throw err;
+    db = dbase.db("data")
+
+    db.collection("items").findOne({id:"asdf"}, (err,result)=>{
+        console.log(result)
+    })
 })
 
-client.onopen = () => {
-    connection.send('Message From Client') 
-  }
-   
-// client.addEventListener("open", function(){
-//     console.log("WS has been opened!")
-// })
-
-// client.addEventListener("message", function(msg){
-//     console.log(msg)
-//     return false;
-// })
-
-(function wait () {
-    if (client.readyState !== "closed") setTimeout(wait, 1000);
- })();
