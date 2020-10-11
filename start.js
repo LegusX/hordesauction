@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use('/', express.static(__dirname + '/client'));
 
-//send requests to the api module to be handled
+//send requests to the api modules to be handled
 app.post('/api', (req, res) => api.post(req, res))
 app.get("/api", (req, res) => api.get(req, res))
 app.get("/signout", (req, res) => api.signout(req, res))

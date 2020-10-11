@@ -73,6 +73,8 @@ exports.post = function(req, res) {
                                 })
                                 res.cookie("ver", "true")
                                 res.send("https://hordes.auction")
+
+                                db.collection("users").findOneAndReplace({gid:gid}, result)
                             } else {
                                 res.cookie("sid", result.sid, {
                                     expires: new Date(result.expires)
