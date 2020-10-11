@@ -175,7 +175,6 @@ exports.post = function(req, res) {
             db.collection("auctions").findOne({ id: req.body.id }, (err, found) => {
                 //if an item with that ID currently doesn't have an auction, go ahead and list it
                 if (found === null) {
-                    console.log(req.cookies.sid)
                     db.collection("users").findOne({ sid: req.cookies.sid }, (err, found) => {
                         // if its null, the account doesn't exit or the SID has expired, send user to login
                         if (found === null) res.status(401).end()
