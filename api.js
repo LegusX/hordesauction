@@ -5,6 +5,7 @@ const {
 var sani = require("sanitize")()
 const fs = require("fs")
 const items = require("./itemlookup.js")
+var devmode
 
 
 //google oauth crap
@@ -16,8 +17,8 @@ const client = new OAuth2Client(CLIENT_ID);
 
 //more dev mode check stuff
 var url;
-if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) url = "mongodb://localhost:27017/";
-else url = "mongodb+srv://legusx:t3tckgmagrMOfdeo@auctiondev.bbrbb.mongodb.net/data?retryWrites=true&w=majority"
+if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) url = "mongodb://localhost:27017/",devmode = false;
+else url = "mongodb+srv://legusx:t3tckgmagrMOfdeo@auctiondev.bbrbb.mongodb.net/data?retryWrites=true&w=majority",devmode = true;
 
 async function verify(token) {
     const ticket = await client.verifyIdToken({
@@ -169,6 +170,18 @@ exports.post = function (req, res) {
           
             })
             break;
+        }
+        case "itemlist": {
+            //if not in dev, then ensure the cookie matches a user
+            if (!devmode) {
+                db.collection("users").findOne({sid:req.cookies.sid}, (err,found)=>{
+                    // if its null, the account doesn't exit or the SID has expired, send user to login
+                    if (found === null) res.status(401).end()
+                    else {
+                        
+                    }
+                })
+            }
         }
     }
 }

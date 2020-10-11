@@ -22,6 +22,11 @@ app.get("/api", (req, res) => api.get(req, res))
 app.get("/signout", (req, res) => api.signout(req, res))
 app.post("/api/lookup", bodyParser.text({type: '*/*'}), (req, res) => api.lookup(req, res))
 
+//404 page, always leave this last
+app.get('*', function(req, res){
+    res.status(404).send("This page doesn't exist, and if you don't leave soon, neither will you.");
+  });
+
 // production env
 // checks to see if the certificate exists, if not move to dev env
 if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) {
