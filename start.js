@@ -6,6 +6,7 @@ var fs = require("fs")
 var api = require("./api.js")
 var bodyParser = require("body-parser")
 var cookieParser = require('cookie-parser')
+var auctions = require("./auctions.js")
 
 var devmode = false;
 
@@ -21,6 +22,7 @@ app.post('/api', (req, res) => api.post(req, res))
 app.get("/api", (req, res) => api.get(req, res))
 app.get("/signout", (req, res) => api.signout(req, res))
 app.post("/api/lookup", bodyParser.text({type: '*/*'}), (req, res) => api.lookup(req, res))
+app.get("/auctions/*", (req,res)=>auctions.page(req,res))
 
 //404 page, always leave this last
 app.get('*', function(req, res){

@@ -7,7 +7,6 @@ const fs = require("fs")
 const items = require("./itemlookup.js")
 var devmode
 
-
 //google oauth crap
 const {
     OAuth2Client
@@ -17,8 +16,8 @@ const client = new OAuth2Client(CLIENT_ID);
 
 //more dev mode check stuff
 var url;
-if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) url = "mongodb://localhost:27017/",devmode = false;
-else url = "mongodb+srv://legusx:t3tckgmagrMOfdeo@auctiondev.bbrbb.mongodb.net/data?retryWrites=true&w=majority",devmode = true;
+if (fs.existsSync("/etc/letsencrypt/live/hordes.auction/privkey.pem")) url = "mongodb://localhost:27017/", devmode = false;
+else url = "mongodb+srv://legusx:t3tckgmagrMOfdeo@auctiondev.bbrbb.mongodb.net/data?retryWrites=true&w=majority", devmode = true;
 
 async function verify(token) {
     const ticket = await client.verifyIdToken({
@@ -34,14 +33,14 @@ async function verify(token) {
 mongo.connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}, function (err, dbase) {
+}, function(err, dbase) {
     if (err) throw err;
     db = dbase.db("data")
 
 })
 
 //exporting stuff because yeah
-exports.post = function (req, res) {
+exports.post = function(req, res) {
     data = req.body
 
     //make sure the data isn't going to murder the server somehow
@@ -58,28 +57,27 @@ exports.post = function (req, res) {
                 }).count((err, num) => {
                     if (num > 0) {
                         //probably need to do some more stuff here for logging in an existing user
-                        db.collection("users").findOne({gid:gid}, function(err,result){
+                        db.collection("users").findOne({ gid: gid }, function(err, result) {
                             //update sid
-                            if(result.expires == null || result.expires < Date.now()) {
+                            if (result.expires == null || result.expires < Date.now()) {
                                 let sid = uuidv4() + "-" + uuidv4()
                                 let expiration = Date.now() + 24 * 3600000 * 14
-                                
+
                                 result.sid = sid
                                 result.expires = expiration
-                                res.cookie("sid", sid,{
+                                res.cookie("sid", sid, {
                                     expires: new Date(expiration)
                                 })
-                                res.cookie("name", result.username,{
+                                res.cookie("name", result.username, {
                                     expires: new Date(expiration)
                                 })
                                 res.cookie("ver", "true")
                                 res.send("https://hordes.auction")
-                            }
-                            else {
-                                res.cookie("sid", result.sid,{
+                            } else {
+                                res.cookie("sid", result.sid, {
                                     expires: new Date(result.expires)
                                 })
-                                res.cookie("name", result.username,{
+                                res.cookie("name", result.username, {
                                     expires: new Date(result.expires)
                                 })
                                 res.cookie("ver", "true")
@@ -146,7 +144,7 @@ exports.post = function (req, res) {
         case "cookielogin": {
             db.collection("users").findOne({
                 sid: req.cookies.sid
-            }, function (err, found) {
+            }, function(err, found) {
                 if (found !== null) {
                     if (found.expires < Date.now()) {
                         //SID has expired
@@ -167,25 +165,36 @@ exports.post = function (req, res) {
                         res.end()
                     }
                 }
-          
+
             })
             break;
         }
         case "itemlist": {
-            //if not in dev, then ensure the cookie matches a user
-            if (!devmode) {
-                db.collection("users").findOne({sid:req.cookies.sid}, (err,found)=>{
-                    // if its null, the account doesn't exit or the SID has expired, send user to login
-                    if (found === null) res.status(401).end()
-                    else {
-                        
-                    }
-                })
-            }
+            db.collection("auctions").findOne({ id: req.body.id }, (err, found) => {
+                //if an item with that ID currently doesn't have an auction, go ahead and list it
+                if (found === null) {
+                    db.collection("users").findOne({ sid: req.cookies.sid }, (err, found) => {
+                        // if its null, the account doesn't exit or the SID has expired, send user to login
+                        if (found === null) res.status(401).end()
+                        else {
+                            let data = req.body;
+                            data.aid = uuidv4()
+                            db.collection("auctions").insertOne(data)
+
+                            if (typeof found.auctions === "undefined") found.auctions = [data.aid]
+                            else found.auctions.push(data.aid)
+                            delete found._id
+                            db.collection("users").findOneAndReplace({ id: found.id }, found)
+                            res.status(200).end()
+                        }
+                    })
+                }
+                else res.status(403).end()
+            })
         }
     }
 }
-exports.get = function (req, res) {
+exports.get = function(req, res) {
     res.send("this does absolutely nothing yet, go away")
 }
 
@@ -198,14 +207,13 @@ exports.signout = function(req, res) {
 }
 
 //process req/res before sending it off to itemlookup.js
-exports.lookup = async function(req,res) {
+exports.lookup = async function(req, res) {
     //check to see if a 8/9 character ID can be found in the string
     if (req.body.match(/[0-9]{9}/g) !== null) {
         let item = await items.lookup(parseInt(req.body.match(/[0-9]{9}/g)[0]))
         if (item !== null && item.status) res.status(401).end() //If response is status:denied, then let the client know that the cookie needs updating
         else res.json(item)
-    }
-    else if (req.body.match(/[0-9]{8}/g) !== null) {
+    } else if (req.body.match(/[0-9]{8}/g) !== null) {
         let item = await items.lookup(parseInt(req.body.match(/[0-9]{8}/g)[0]))
         if (item !== null && item.status) res.status(401).end() //If response is status:denied, then let the client know that the cookie needs updating
         else res.json(item)

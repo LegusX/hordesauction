@@ -80,6 +80,10 @@ function listingSetup() {
                 headers: {
                     "Content-Type": "application/json"
                 }
+            }).then((r)=>{
+                if (r.status === 401) location.href = "/login"
+                else if (r.status === 403) alert("That item is already up for auction!")
+                else if (r.status === 200) location.href = "/auctions/"+window.itemid
             })
         }
     })
